@@ -95,17 +95,28 @@ function flame(x, y) {
   fill(255, 165, 0);
   beginShape();
   vertex(-10, 50);
-  bezierVertex(-10, 50, 0, 100, 10, 50);
+  bezierVertex(-10, 50, 0, 140, 10, 50);
   endShape();
   fill(196, 180, 0);
   beginShape();
   vertex(-5, 50);
-  bezierVertex(-5, 50, 0, 80, 5, 50);
+  bezierVertex(-5, 50, 0, 110, 5, 50);
   endShape();
   pop();
 }
+function airPressure(x, y) {
+  push();
+  noStroke();
+  translate(x, y);
+  fill(255, 255, 255);
+  ellipse(-50, 70, 30);
+  triangle(-10, 85, -50, 70, -50, 85);
+  ellipse(50, 70, 30);
+  triangle(10, 85, 50, 70, 50, 85);
+  pop();
+}
 let obstacleX = 500;
-let obstacleY = 300;
+let obstacleY = 100;
 let obstacle2X = 300;
 let obstacle2Y = 350;
 
@@ -135,7 +146,7 @@ function gameScreen() {
   obstacles(obstacle2X, obstacle2Y);
   if (gameIsRunning === true) {
     obstacleX = obstacleX - 2;
-    obstacle2X = obstacle2X - 5;
+    obstacle2X = obstacle2X - 4;
     if (obstacleX < 0) {
       obstacleY = Math.floor((Math.random() * height) / 2);
       obstacleX = 600;
@@ -148,10 +159,11 @@ function gameScreen() {
     velocity = velocity + accelaration;
 
     if (keyIsDown(40)) {
+      flame(craftX, craftY);
       if (velocity > 2) {
         velocity = velocity * 0.4;
         craftY = craftY - velocity;
-        flame(craftX, craftY);
+        airPressure(craftX, craftY);
       }
       if (craftY >= 350) {
         console.log("win");

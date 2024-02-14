@@ -1,0 +1,12 @@
+[
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "# Lunar Lander Planning\r\n\r\nCreating a Lunar Lander game where a spacecraft about to land on the moon."
+  },
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "## Rules\r\n- start screen with play button\r\n- game screen \r\n  - Spacecraft moves up and down (due to no gravity) \r\n  - Obstacles moves to the left\r\n  - Spacecraft goes down when arrow down key pressed\r\n  - Spacecraft collides with obstacle or ground, then game over\r\n- Result screen\r\n"
+  }
+]

@@ -1,8 +1,25 @@
-// Using States
+// All Variables
+let starX = [];
+let starY = [];
+let starShine = [];
+let craftX = 300;
+let craftY = 200;
+let obstacleX = 500;
+let obstacleY = 100;
+let obstacle2X = 300;
+let obstacle2Y = 350;
+let velocity = 0.5;
+let accelaration = 0.1;
+let gameIsRunning = true;
+let buttonIsClicked = false;
+let state = "start";
+
 function setup() {
   createCanvas(600, 500);
-  background(255);
 }
+
+// start Screen
+
 function startButton(x, y, w, h, radius) {
   noStroke();
   fill(0, 0, 150);
@@ -11,15 +28,6 @@ function startButton(x, y, w, h, radius) {
   fill(255);
   text("Start Game", 220, 230);
 }
-function resultButton(x, y, w, h, radius) {
-  noStroke();
-  fill(0, 0, 150);
-  rect(x, y, w, h, radius);
-  textSize(20);
-  fill(255);
-  text("Play Again", 220, 230);
-}
-let buttonIsClicked = false;
 function mousePressed() {
   if (mouseX > 200 && mouseX < 200 + 150 && mouseY > 200 && mouseY < 200 + 50) {
     buttonIsClicked = true;
@@ -39,11 +47,9 @@ function startScreen() {
   //   gameScreen();
   // }
 }
-let starX = [];
-let starY = [];
-let starShine = [];
 
-for (i = 0; i < 600; i++) {
+// Game Screen
+for (i = 0; i < 200; i++) {
   const x = Math.floor(Math.random() * width);
   const y = Math.floor(Math.random() * height);
   const shine = Math.random();
@@ -51,6 +57,7 @@ for (i = 0; i < 600; i++) {
   starY.push(y);
   starShine.push(shine);
 }
+
 function spaceBackground() {
   noStroke();
   background(0);
@@ -61,11 +68,9 @@ function spaceBackground() {
   }
   fill(200, 200, 200);
   rect(0, 402, 600, 100);
-  // arc(200, 500, 900, 200, PI, 0);
 }
 function spaceCraft(x, y) {
   push();
-  //   stroke(1);
   translate(x, y);
   //   body
   fill(255);
@@ -109,10 +114,6 @@ function airPressure(x, y) {
   triangle(10, 85, 50, 70, 50, 85);
   pop();
 }
-let obstacleX = 500;
-let obstacleY = 100;
-let obstacle2X = 300;
-let obstacle2Y = 350;
 
 function obstacles(x, y) {
   push();
@@ -127,12 +128,6 @@ function obstacles(x, y) {
   ellipse(-9, -6, 4);
   pop();
 }
-let craftX = 300;
-let craftY = 200;
-let velocity = 0.5;
-let accelaration = 0.1;
-let gameIsRunning = true;
-
 function gameScreen() {
   spaceBackground();
   flame(craftX, craftY);
@@ -154,7 +149,6 @@ function gameScreen() {
     velocity = velocity + accelaration;
 
     if (keyIsDown(40)) {
-      // flame(craftX, craftY);
       if (velocity > 2) {
         velocity = velocity * 0.4;
         craftY = craftY - velocity;
@@ -192,24 +186,29 @@ function gameScreen() {
       }
     }
   }
-  //  else {
-  //   resultScreen();
-  //   craftY = 200;
-  //   obstacleX = 400;
-  // }
+}
+
+// Result Screen
+function resultButton(x, y, w, h, radius) {
+  noStroke();
+  fill(0, 0, 150);
+  rect(x, y, w, h, radius);
+  textSize(20);
+  fill(255);
+  text("Play Again", 220, 230);
 }
 function resultScreen() {
   spaceBackground();
   textSize(30);
   if (velocity < 2 && craftY > 350) {
-    text("You Win", 200, 100);
+    text("You Win ;)", 200, 100);
     resultButton(200, 200, 150, 50, 10);
   } else if (velocity > 3) {
-    text("You Lost", 200, 100);
+    text("You Lost  :(", 200, 100);
     resultButton(200, 200, 150, 50, 10);
   } else if (obstacleX + 25 > craftX - 20 && obstacleX - 25 < craftX + 20) {
     if (obstacleY + 25 > craftY - 50 && obstacleY - 25 < craftY + 50) {
-      text("You Lost", 200, 100);
+      text("You Lost :(", 200, 100);
       resultButton(200, 200, 150, 50, 10);
     }
   } else if (obstacle2X + 25 > craftX - 20 && obstacle2X - 25 < craftX + 20) {
@@ -220,7 +219,7 @@ function resultScreen() {
   }
 }
 
-let state = "start";
+// Logic
 function draw() {
   if (state === "start") {
     startScreen();
@@ -236,7 +235,6 @@ function draw() {
     resultScreen();
     if (buttonIsClicked) {
       obstacleY = 300;
-      // obstacleX = 400;
       craftX = 300;
       craftY = 100;
       velocity = 0.5;

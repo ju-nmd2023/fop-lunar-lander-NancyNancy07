@@ -134,9 +134,11 @@ function gameScreen() {
   spaceCraft(craftX, craftY);
   obstacles(obstacleX, obstacleY);
   obstacles(obstacle2X, obstacle2Y);
+
   if (gameIsRunning === true) {
     obstacleX = obstacleX - 2;
     obstacle2X = obstacle2X - 4;
+
     if (obstacleX < 0) {
       obstacleY = Math.floor((Math.random() * height) / 2);
       obstacleX = 600;

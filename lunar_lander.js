@@ -36,7 +36,6 @@ function mousePressed() {
 function mouseReleased() {
   buttonIsClicked = false;
 }
-
 function startScreen() {
   spaceBackground();
   textSize(30);
@@ -246,3 +245,4 @@ function draw() {
     }
   }
 }
+

@@ -93,15 +93,9 @@ function flame(x, y) {
   push();
   translate(x, y);
   fill(255, 165, 0);
-  beginShape();
-  vertex(-10, 50);
-  bezierVertex(-10, 50, 0, 140, 10, 50);
-  endShape();
-  fill(196, 180, 0);
-  beginShape();
-  vertex(-5, 50);
-  bezierVertex(-5, 50, 0, 110, 5, 50);
-  endShape();
+  ellipse(0, 0 + random(35, 55), 20, 60);
+  fill(255, 234, 0);
+  ellipse(0, 0 + random(35, 50), 10, 45);
   pop();
 }
 function airPressure(x, y) {
@@ -141,6 +135,7 @@ let gameIsRunning = true;
 
 function gameScreen() {
   spaceBackground();
+  flame(craftX, craftY);
   spaceCraft(craftX, craftY);
   obstacles(obstacleX, obstacleY);
   obstacles(obstacle2X, obstacle2Y);
@@ -159,7 +154,7 @@ function gameScreen() {
     velocity = velocity + accelaration;
 
     if (keyIsDown(40)) {
-      flame(craftX, craftY);
+      // flame(craftX, craftY);
       if (velocity > 2) {
         velocity = velocity * 0.4;
         craftY = craftY - velocity;

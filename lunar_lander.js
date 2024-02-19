@@ -60,6 +60,7 @@ for (i = 0; i < 200; i++) {
 function spaceBackground() {
   noStroke();
   background(0);
+  push();
   for (let index in starX) {
     fill(255, 255, 255, Math.abs(Math.sin(starShine[index]) * 255));
     ellipse(starX[index], starY[index], 1);
@@ -67,6 +68,12 @@ function spaceBackground() {
   }
   fill(200, 200, 200);
   rect(0, 402, 600, 100);
+  fill(150);
+  ellipse(400, 450, 50,30);
+  ellipse(520, 470, 70,30);
+  ellipse(100, 450, 80,40);
+  ellipse(250, 480,60, 30);
+  pop();
 }
 function spaceCraft(x, y) {
   push();
@@ -245,4 +252,3 @@ function draw() {
     }
   }
 }
-

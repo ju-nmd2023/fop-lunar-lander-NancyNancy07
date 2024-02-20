@@ -2,14 +2,18 @@
 let starX = [];
 let starY = [];
 let starShine = [];
-let craftX = 300;
-let craftY = 200;
-let obstacleX = 500;
-let obstacleY = 100;
-let obstacle2X = 300;
-let obstacle2Y = 350;
-let velocity = 0.5;
-let accelaration = 0.1;
+let craftObj = {
+  x: 300,
+  y: 200,
+  velocity: 0.5,
+  accelaration: 0.1,
+};
+let obstacleObj = {
+  x1: 500,
+  y1: 100,
+  x2: 600,
+  y2: 300,
+};
 let gameIsRunning = true;
 let buttonIsClicked = false;
 let state = "start";
@@ -19,17 +23,16 @@ function setup() {
 }
 
 // start Screen
-
 function startButton(x, y, w, h, radius) {
   noStroke();
   fill(0, 0, 150);
   rect(x, y, w, h, radius);
   textSize(20);
   fill(255);
-  text("Start Game", 220, 230);
+  text("Start Game", 270, 230);
 }
 function mousePressed() {
-  if (mouseX > 200 && mouseX < 200 + 150 && mouseY > 200 && mouseY < 200 + 50) {
+  if (mouseX > 245 && mouseX < 245 + 150 && mouseY > 200 && mouseY < 200 + 50) {
     buttonIsClicked = true;
   }
 }
@@ -37,14 +40,18 @@ function mouseReleased() {
   buttonIsClicked = false;
 }
 function startScreen() {
-  spaceBackground();
+  background(0);
+  push();
   textSize(30);
   fill(255);
   text("Land Spacecraft on the Moon", 100, 100);
-  startButton(200, 200, 150, 50, 10);
-  // if (buttonIsClicked) {
-  //   gameScreen();
-  // }
+  pop();
+  startButton(245, 200, 150, 50, 10);
+  text("INSTRUCTIONS:", 100, 300);
+  textSize(15);
+  text("Use Up Arow Key to move the rocket up", 100, 330);
+  text("Use Down Arow Key to land the rocket on the Moon", 100, 360);
+  text("Beware from other orbits....", 100, 390);
 }
 
 // Game Screen
@@ -67,12 +74,12 @@ function spaceBackground() {
     starShine[index] = starShine[index] + 0.02;
   }
   fill(200, 200, 200);
-  rect(0, 402, 600, 100);
+  ellipse(300, 500, 300);
   fill(150);
-  ellipse(400, 450, 50,30);
-  ellipse(520, 470, 70,30);
-  ellipse(100, 450, 80,40);
-  ellipse(250, 480,60, 30);
+  ellipse(400, 450, 50, 30);
+  ellipse(330, 470, 40, 20);
+  ellipse(300, 400, 80, 40);
+  ellipse(230, 460, 60, 30);
   pop();
 }
 function spaceCraft(x, y) {
@@ -136,59 +143,64 @@ function obstacles(x, y) {
 }
 function gameScreen() {
   spaceBackground();
-  flame(craftX, craftY);
-  spaceCraft(craftX, craftY);
-  obstacles(obstacleX, obstacleY);
-  obstacles(obstacle2X, obstacle2Y);
+  flame(craftObj.x, craftObj.y);
+  spaceCraft(craftObj.x, craftObj.y);
+  obstacles(obstacleObj.x1, obstacleObj.y1);
+  obstacles(obstacleObj.x2, obstacleObj.y2);
 
   if (gameIsRunning === true) {
-    obstacleX = obstacleX - 2;
-    obstacle2X = obstacle2X - 4;
+    obstacleObj.x1 = obstacleObj.x1 - 2;
+    obstacleObj.x2 = obstacleObj.x2 - 4;
 
-    if (obstacleX < 0) {
-      obstacleY = Math.floor((Math.random() * height) / 2);
-      obstacleX = 600;
+    if (obstacleObj.x1 < 0) {
+      obstacleObj.y1 = Math.floor((Math.random() * height) / 2);
+      obstacleObj.x1 = 600;
     }
-    if (obstacle2X < 0) {
-      obstacle2X = 600;
+    if (obstacleObj.x2 < 0) {
+      obstacleObj.x2 = 600;
     }
 
-    craftY = craftY + velocity;
-    velocity = velocity + accelaration;
+    craftObj.y = craftObj.y + craftObj.velocity;
+    craftObj.velocity = craftObj.velocity + craftObj.accelaration;
 
     if (keyIsDown(40)) {
-      if (velocity > 2) {
-        velocity = velocity * 0.4;
-        craftY = craftY - velocity;
-        airPressure(craftX, craftY);
+      if (craftObj.velocity > 2) {
+        craftObj.velocity = craftObj.velocity * 0.4;
+        craftObj.y = craftObj.y - craftObj.velocity;
+        airPressure(craftObj.x, craftObj.y);
       }
-      if (craftY >= 350) {
+      if (craftObj.y >= 300) {
         console.log("win");
         gameIsRunning = false;
       }
-    } else if (craftY >= 350) {
+    } else if (craftObj.y >= 300) {
       console.log("game over");
       console.log("crash");
       gameIsRunning = false;
     }
     if (keyIsDown(38)) {
-      velocity = velocity - 0.2;
+      craftObj.velocity = craftObj.velocity - 0.2;
       console.log("fly");
-    } else if (keyIsDown(37)) {
-      velocity = 0;
-      craftX = craftX - 3;
-    } else if (keyIsDown(39)) {
-      velocity = 0;
-      craftX = craftX + 3;
     }
-    if (obstacleX + 25 > craftX - 20 && obstacleX - 25 < craftX + 20) {
-      if (obstacleY + 25 > craftY - 50 && obstacleY - 25 < craftY + 50) {
+    if (
+      obstacleObj.x1 + 25 > craftObj.x - 20 &&
+      obstacleObj.x1 - 25 < craftObj.x + 20
+    ) {
+      if (
+        obstacleObj.y1 + 25 > craftObj.y - 50 &&
+        obstacleObj.y1 - 25 < craftObj.y + 50
+      ) {
         gameIsRunning = false;
-        // console.log("lost");
       }
     }
-    if (obstacle2X + 25 > craftX - 20 && obstacle2X - 25 < craftX + 20) {
-      if (obstacle2Y + 25 > craftY - 50 && obstacle2Y - 25 < craftY + 50) {
+    if (
+      obstacleObj.x2 + 25 > craftObj.x - 20 &&
+      obstacleObj.x2 - 25 < craftObj.x + 20
+    ) {
+      if (
+        obstacleObj.y2 + 25 > craftObj.y - 50 &&
+        obstacleObj.y2 - 25 < craftObj.y + 50
+      ) {
         gameIsRunning = false;
         // console.log("lost");
       }
@@ -203,31 +215,43 @@ function resultButton(x, y, w, h, radius) {
   rect(x, y, w, h, radius);
   textSize(20);
   fill(255);
-  text("Play Again", 220, 230);
+  text("Play Again", 270, 230);
 }
 function resultScreen() {
-  spaceBackground();
+  background(0);
   textSize(30);
-  if (velocity < 2 && craftY > 350) {
-    text("You Win ;)", 200, 100);
-    resultButton(200, 200, 150, 50, 10);
-  } else if (velocity > 3) {
-    text("You Lost  :(", 200, 100);
-    resultButton(200, 200, 150, 50, 10);
-  } else if (obstacleX + 25 > craftX - 20 && obstacleX - 25 < craftX + 20) {
-    if (obstacleY + 25 > craftY - 50 && obstacleY - 25 < craftY + 50) {
-      text("You Lost :(", 200, 100);
-      resultButton(200, 200, 150, 50, 10);
+  if (craftObj.velocity < 2 && craftObj.y > 300) {
+    text("You Win", 260, 100);
+    resultButton(245, 200, 150, 50, 10);
+  } else if (craftObj.velocity > 3) {
+    text("You Lost", 260, 100);
+    resultButton(245, 200, 150, 50, 10);
+  } else if (
+    obstacleObj.x1 + 25 > craftObj.x - 20 &&
+    obstacleObj.x1 - 25 < craftObj.x + 20
+  ) {
+    if (
+      obstacleObj.y1 + 25 > craftObj.y - 50 &&
+      obstacleObj.y1 - 25 < craftObj.y + 50
+    ) {
+      text("You Lost", 260, 100);
+      resultButton(245, 200, 150, 50, 10);
     }
-  } else if (obstacle2X + 25 > craftX - 20 && obstacle2X - 25 < craftX + 20) {
-    if (obstacle2Y + 25 > craftY - 50 && obstacle2Y - 25 < craftY + 50) {
-      text("You Lost", 200, 100);
-      resultButton(200, 200, 150, 50, 10);
+  } else if (
+    obstacleObj.x2 + 25 > craftObj.x - 20 &&
+    obstacleObj.x2 - 25 < craftObj.x + 20
+  ) {
+    if (
+      obstacleObj.y2 + 25 > craftObj.y - 50 &&
+      obstacleObj.y2 - 25 < craftObj.y + 50
+    ) {
+      text("You Lost", 260, 100);
+      resultButton(245, 200, 150, 50, 10);
     }
   }
 }
 
-// Logic
+// states
 function draw() {
   if (state === "start") {
     startScreen();
@@ -236,17 +260,17 @@ function draw() {
     }
   } else if (state === "game") {
     gameScreen();
-    if (craftY > 350 || gameIsRunning === false) {
+    if (craftObj.y > 350 || gameIsRunning === false) {
       state = "result";
     }
   } else if (state === "result") {
     resultScreen();
     if (buttonIsClicked) {
-      obstacleY = 300;
-      craftX = 300;
-      craftY = 100;
-      velocity = 0.5;
-      accelaration = 0.1;
+      obstacleObj.y1 = 300;
+      craftObj.x = 300;
+      craftObj.y = 100;
+      craftObj.velocity = 0.5;
+      craftObj.accelaration = 0.1;
       gameIsRunning = true;
       state = "game";
     }

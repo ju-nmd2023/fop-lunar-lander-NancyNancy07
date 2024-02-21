@@ -2,6 +2,7 @@
 let starX = [];
 let starY = [];
 let starShine = [];
+let colors = [];
 let craftObj = {
   x: 300,
   y: 200,
@@ -49,7 +50,7 @@ function startScreen() {
   startButton(245, 200, 150, 50, 10);
   text("INSTRUCTIONS:", 100, 300);
   textSize(15);
-  text("Use Up Arow Key to move the rocket up", 100, 330);
+  text("Use Space Arow Key to control the threst", 100, 330);
   text("Use Down Arow Key to land the rocket on the Moon", 100, 360);
   text("Beware from other orbits....", 100, 390);
 }
@@ -165,7 +166,7 @@ function gameScreen() {
 
     if (keyIsDown(40)) {
       if (craftObj.velocity > 2) {
-        craftObj.velocity = craftObj.velocity * 0.4;
+        craftObj.velocity = craftObj.velocity * 0.2;
         craftObj.y = craftObj.y - craftObj.velocity;
         airPressure(craftObj.x, craftObj.y);
       }
@@ -173,14 +174,15 @@ function gameScreen() {
         console.log("win");
         gameIsRunning = false;
       }
-    } else if (craftObj.y >= 300) {
+    } else if (craftObj.y >= 300 || craftObj.y < 0) {
       console.log("game over");
       console.log("crash");
       gameIsRunning = false;
     }
-    if (keyIsDown(38)) {
-      craftObj.velocity = craftObj.velocity - 0.2;
-      console.log("fly");
+    if (keyIsDown(32)) {
+      craftObj.velocity = craftObj.velocity - 0.3;
+      airPressure(craftObj.x, craftObj.y);
+      console.log("landing...");
     }
     if (
       obstacleObj.x1 + 25 > craftObj.x - 20 &&
@@ -209,6 +211,33 @@ function gameScreen() {
 }
 
 // Result Screen
+for (i = 0; i < 200; i++) {
+  const color = {
+    x: Math.floor(Math.random() * width),
+    y: Math.floor(Math.random() * height),
+    light: Math.random(),
+  };
+  colors.push(color);
+}
+function dropColor() {
+  for (let color of colors) {
+    fill(
+      Math.floor(Math.random() * 255),
+      Math.floor(Math.random() * 255),
+      Math.floor(Math.random() * 255),
+      Math.abs(Math.sin(color.light) * 255)
+    );
+
+    ellipse(color.x, color.y, 8);
+    color.light = color.light + 0.02;
+    color.y = color.y + 10;
+    if (color.y > height) {
+      color.y = Math.floor(Math.random() * color.y);
+    } else if (color.x > width) {
+      color.x = Math.floor(Math.random() * color.x);
+    }
+  }
+}
 function resultButton(x, y, w, h, radius) {
   noStroke();
   fill(0, 0, 150);
@@ -221,9 +250,11 @@ function resultScreen() {
   background(0);
   textSize(30);
   if (craftObj.velocity < 2 && craftObj.y > 300) {
+    dropColor();
+    fill(255);
     text("You Win", 260, 100);
     resultButton(245, 200, 150, 50, 10);
-  } else if (craftObj.velocity > 3) {
+  } else if (craftObj.velocity > 3 || craftObj.y < 0 || craftObj.y > 300) {
     text("You Lost", 260, 100);
     resultButton(245, 200, 150, 50, 10);
   } else if (
@@ -276,3 +307,4 @@ function draw() {
     }
   }
 }
+

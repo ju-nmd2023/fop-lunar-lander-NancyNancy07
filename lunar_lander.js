@@ -3,6 +3,7 @@ let starX = [];
 let starY = [];
 let starShine = [];
 let colors = [];
+let scroll = 0;
 let craftObj = {
   x: 300,
   y: 100,
@@ -51,10 +52,8 @@ function startScreen() {
   text("INSTRUCTIONS:", 100, 300);
   textSize(15);
   text("Use Down Arow Key to control the speed of rocket", 100, 330);
-  // text("Use Down Arow Key to land the rocket on the Moon", 100, 360);
-  text("Beware from other orbits....", 100, 390);
+  text("Beware from other orbits....", 100, 360);
 }
-
 // Game Screen
 for (i = 0; i < 200; i++) {
   const x = Math.floor(Math.random() * width);
@@ -152,7 +151,6 @@ function gameScreen() {
   if (gameIsRunning === true) {
     obstacleObj.x1 = obstacleObj.x1 - 2;
     obstacleObj.x2 = obstacleObj.x2 - 4;
-
     if (obstacleObj.x1 < 0) {
       obstacleObj.y1 = Math.floor((Math.random() * height) / 2);
       obstacleObj.x1 = 600;

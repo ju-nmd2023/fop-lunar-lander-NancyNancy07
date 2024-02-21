@@ -7,6 +7,6 @@
   {
     "kind": 1,
     "language": "markdown",
-    "value": "## Rules\r\n- start screen with play button\r\n- game screen \r\n  - Spacecraft moves up and down (due to no gravity) \r\n  - Obstacles moves to the left\r\n  - Spacecraft goes down when arrow down key pressed\r\n  - Spacecraft collides with obstacle or ground, then game over\r\n- Result screen\r\n"
+    "value": "## Rules\r\n- start screen with play button and instructions\r\n- game screen \r\n  - Spacecraft moves down due to high velocity\r\n  - Spacecraft crashed on moon with high velocity\r\n  - Obstacles moves to the left \r\n  - Cont4rol the thruster with space key \r\n  - Spacecraft lands when arrow down key pressed\r\n  - Spacecraft collides with obstacle, then game over\r\n- Result screen\r\n"
   }
 ]

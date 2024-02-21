@@ -5,7 +5,7 @@ let starShine = [];
 let colors = [];
 let craftObj = {
   x: 300,
-  y: 200,
+  y: 100,
   velocity: 0.5,
   accelaration: 0.1,
 };
@@ -50,8 +50,8 @@ function startScreen() {
   startButton(245, 200, 150, 50, 10);
   text("INSTRUCTIONS:", 100, 300);
   textSize(15);
-  text("Use Space Arow Key to control the threst", 100, 330);
-  text("Use Down Arow Key to land the rocket on the Moon", 100, 360);
+  text("Use Down Arow Key to control the speed of rocket", 100, 330);
+  // text("Use Down Arow Key to land the rocket on the Moon", 100, 360);
   text("Beware from other orbits....", 100, 390);
 }
 
@@ -158,29 +158,19 @@ function gameScreen() {
       obstacleObj.x1 = 600;
     }
     if (obstacleObj.x2 < 0) {
+      obstacleObj.y2 = Math.floor((Math.random() * height) / 2);
       obstacleObj.x2 = 600;
     }
 
     craftObj.y = craftObj.y + craftObj.velocity;
     craftObj.velocity = craftObj.velocity + craftObj.accelaration;
-
-    if (keyIsDown(40)) {
-      if (craftObj.velocity > 2) {
-        craftObj.velocity = craftObj.velocity * 0.2;
-        craftObj.y = craftObj.y - craftObj.velocity;
-        airPressure(craftObj.x, craftObj.y);
-      }
-      if (craftObj.y >= 300) {
-        console.log("win");
-        gameIsRunning = false;
-      }
-    } else if (craftObj.y >= 300 || craftObj.y < 0) {
+    if (craftObj.y >= 310 || craftObj.y < 0) {
       console.log("game over");
       console.log("crash");
       gameIsRunning = false;
     }
-    if (keyIsDown(32)) {
-      craftObj.velocity = craftObj.velocity - 0.3;
+    if (keyIsDown(40)) {
+      craftObj.velocity = craftObj.velocity - 0.2;
       airPressure(craftObj.x, craftObj.y);
       console.log("landing...");
     }
@@ -249,12 +239,12 @@ function resultButton(x, y, w, h, radius) {
 function resultScreen() {
   background(0);
   textSize(30);
-  if (craftObj.velocity < 2 && craftObj.y > 300) {
+  if (craftObj.velocity < 2 && craftObj.y > 310) {
     dropColor();
     fill(255);
     text("You Win", 260, 100);
     resultButton(245, 200, 150, 50, 10);
-  } else if (craftObj.velocity > 3 || craftObj.y < 0 || craftObj.y > 300) {
+  } else if (craftObj.velocity > 3 || craftObj.y < 0 || craftObj.y > 310) {
     text("You Lost", 260, 100);
     resultButton(245, 200, 150, 50, 10);
   } else if (
@@ -297,14 +287,16 @@ function draw() {
   } else if (state === "result") {
     resultScreen();
     if (buttonIsClicked) {
-      obstacleObj.y1 = 300;
       craftObj.x = 300;
       craftObj.y = 100;
       craftObj.velocity = 0.5;
       craftObj.accelaration = 0.1;
+      obstacleObj.x1 = 500;
+      obstacleObj.y1 = 100;
+      obstacleObj.x2 = 600;
+      obstacleObj.y2 = 300;
       gameIsRunning = true;
       state = "game";
     }
   }
 }
-

@@ -23,9 +23,13 @@ let buttonIsClicked = false;
 let state = "start";
 
 function setup() {
-  createCanvas(w, h);
+  const cnv = createCanvas(w, h);
+  const x = (windowWidth - width) / 2;
+  const y = (windowHeight - height) / 2;
+  cnv.position(x, y);
+  cnv.parent("canvas-container");
+  frameRate(30);
 }
-
 // start Screen
 function startButton(x, y, s, h, radius) {
   noStroke();
@@ -208,26 +212,20 @@ function gameScreen() {
 
     if (
       obstacleObj.x1 + 25 > craftObj.x - 20 &&
-      obstacleObj.x1 - 25 < craftObj.x + 20
+      obstacleObj.x1 - 25 < craftObj.x + 20 &&
+      obstacleObj.y1 + 25 > craftObj.y - 50 &&
+      obstacleObj.y1 - 25 < craftObj.y + 50
     ) {
-      if (
-        obstacleObj.y1 + 25 > craftObj.y - 50 &&
-        obstacleObj.y1 - 25 < craftObj.y + 50
-      ) {
-        gameIsRunning = false;
-      }
+      gameIsRunning = false;
     }
     if (
       obstacleObj.x2 + 25 > craftObj.x - 20 &&
-      obstacleObj.x2 - 25 < craftObj.x + 20
+      obstacleObj.x2 - 25 < craftObj.x + 20 &&
+      obstacleObj.y2 + 25 > craftObj.y - 50 &&
+      obstacleObj.y2 - 25 < craftObj.y + 50
     ) {
-      if (
-        obstacleObj.y2 + 25 > craftObj.y - 50 &&
-        obstacleObj.y2 - 25 < craftObj.y + 50
-      ) {
-        gameIsRunning = false;
-        // console.log("lost");
-      }
+      gameIsRunning = false;
+      // console.log("lost");
     }
   }
 }
@@ -279,6 +277,15 @@ function resultScreen() {
   } else if (craftObj.velocity > 3 || craftObj.y < 0 || craftObj.y > 310) {
     text("You Lost", w / 2 - 50, 100);
     resultButton(w / 2 - 75, 200, 150, 50, 10);
+    push();
+    spaceCraft(300, 200);
+    spaceCraft(700, 200);
+    fill(255);
+    stroke(5);
+    strokeWeight(10);
+    line(350, 100, 250, 300);
+    line(750, 100, 650, 300);
+    pop();
   } else if (
     obstacleObj.x1 + 25 > craftObj.x - 20 &&
     obstacleObj.x1 - 25 < craftObj.x + 20 &&
@@ -287,6 +294,15 @@ function resultScreen() {
   ) {
     text("You Lost", w / 2 - 50, 100);
     resultButton(w / 2 - 75, 200, 150, 50, 10);
+    push();
+    spaceCraft(300, 200);
+    spaceCraft(700, 200);
+    fill(255);
+    stroke(5);
+    strokeWeight(10);
+    line(350, 100, 250, 300);
+    line(750, 100, 650, 300);
+    pop();
   } else if (
     obstacleObj.x2 + 25 > craftObj.x - 20 &&
     obstacleObj.x2 - 25 < craftObj.x + 20 &&
@@ -295,6 +311,15 @@ function resultScreen() {
   ) {
     text("You Lost", w / 2 - 50, 100);
     resultButton(w / 2 - 75, 200, 150, 50, 10);
+    push();
+    spaceCraft(300, 200);
+    spaceCraft(700, 200);
+    fill(255);
+    stroke(5);
+    strokeWeight(10);
+    line(350, 100, 250, 300);
+    line(750, 100, 650, 300);
+    pop();
   }
 }
 

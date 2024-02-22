@@ -269,7 +269,7 @@ function resultButton(x, y, s, h, radius) {
 function resultScreen() {
   background(0);
   textSize(30);
-  if (craftObj.velocity < 1 && craftObj.y > 310) {
+  if (craftObj.velocity < 2 && craftObj.y > 310) {
     dropColor();
     fill(255);
     text("You Win", w / 2 - 50, 100);
